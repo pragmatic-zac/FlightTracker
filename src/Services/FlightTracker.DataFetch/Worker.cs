@@ -1,3 +1,5 @@
+using FlightTracker.Common;
+
 namespace FlightTracker.DataFetch
 {
     public class Worker : BackgroundService
@@ -13,6 +15,11 @@ namespace FlightTracker.DataFetch
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var test = new ADSBPing
+                {
+                    Hex = "123asdf"
+                };
+
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
