@@ -6,6 +6,14 @@ services:
     build:
       context: .
       dockerfile: History/FlightTracker.FlightHistory.API/Dockerfile
+    ports:
+      - "8000:80"
+
+  flighttracker.datafetch:
+    image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
+    build:
+      context: .
+      dockerfile: Services/FlightTracker.DataFetch/Dockerfile
 
   track-rabbitmq:
     image: rabbitmq:3-management-alpine

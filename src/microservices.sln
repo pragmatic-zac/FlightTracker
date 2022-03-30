@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTracker.FlightHistory
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7511A48A-7CE3-4858-BCBF-594ACE61026E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTracker.DataFetch", "Services\FlightTracker.DataFetch\FlightTracker.DataFetch.csproj", "{CA85570B-B563-4E04-BFCF-79D020D23DD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{7511A48A-7CE3-4858-BCBF-594ACE61026E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7511A48A-7CE3-4858-BCBF-594ACE61026E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7511A48A-7CE3-4858-BCBF-594ACE61026E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA85570B-B563-4E04-BFCF-79D020D23DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA85570B-B563-4E04-BFCF-79D020D23DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA85570B-B563-4E04-BFCF-79D020D23DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA85570B-B563-4E04-BFCF-79D020D23DD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
