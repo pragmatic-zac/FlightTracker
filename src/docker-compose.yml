@@ -8,6 +8,8 @@ services:
       dockerfile: History/FlightTracker.FlightHistory.API/Dockerfile
     ports:
       - "8000:80"
+    depends_on:
+      - flighthistorydb
 
   flighttracker.datafetch:
     image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
@@ -36,6 +38,7 @@ services:
 
   flighthistorydb:
     image: postgres
+    container_name: flighthistorydb
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin1234

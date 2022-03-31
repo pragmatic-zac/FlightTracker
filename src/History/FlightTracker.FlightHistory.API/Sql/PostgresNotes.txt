@@ -1,0 +1,31 @@
+﻿Just a scratchpad for postgres stuff
+
+Lots of enhancements could be made - doing this for real, I'd probably put this in TimescaleDb and maybe use PostGIS too
+___________
+
+Main table for flights
+
+CREATE TABLE Flight (
+	Id				SERIAL PRIMARY KEY NOT NULL,
+	Hex				VARCHAR(10) NOT NULL,
+	FlightNumber	VARCHAR(10)
+)
+
+____________
+
+Leaving several columns off of this as this is just a proof of concept
+Using REAL for the number columns gets 6 digits of precision, good enough for testing this out
+
+CREATE TABLE FlightStatus (
+	Id						BIGSERIAL PRIMARY KEY NOT NULL,
+	FlightId				INT NOT NULL,
+	BarometricAltitude		INT,
+	GeometricAltitude		INT,
+	GroundSpeed				REAL,
+	Track					REAL,
+	BarometricRateOfChange	INT,
+	Squawk					VARCHAR(10),
+	Latitude				REAL,
+	Longitude				REAL,
+	CONSTRAINT fk_flightid FOREIGN KEY(FlightId) REFERENCES Flight(Id)
+)
