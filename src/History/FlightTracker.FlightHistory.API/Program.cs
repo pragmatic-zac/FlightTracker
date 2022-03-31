@@ -28,6 +28,7 @@
 
 
 using System.Reflection;
+using FlightTracker.FlightHistory.API.Cache;
 using FlightTracker.FlightHistory.API.Repository;
 using MassTransit;
 
@@ -50,6 +51,8 @@ namespace TrackFetcher
 
                     services.AddEndpointsApiExplorer();
                     services.AddSwaggerGen();
+
+                    services.AddMemoryCache();
 
                     services.AddMassTransit(x =>
                     {

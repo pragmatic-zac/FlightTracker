@@ -11,7 +11,7 @@ namespace FlightTracker.FlightHistory.API.Repository
 
         public FlightRepository()
         {
-            _connectionString = "";
+            _connectionString = "Server=FlightHistoryDb;Port=5432;Database=FlightHistoryDb;User Id=admin;Password=admin1234;";
         }
 
         public async Task<int> AddFlight(Flight flight)
@@ -26,7 +26,7 @@ namespace FlightTracker.FlightHistory.API.Repository
                 FlightNumber = flight.FlightNumber,
             };
 
-            int result = await connection.ExecuteAsync(sql, param: p);
+            int result = await connection.ExecuteScalarAsync<int>(sql, param: p);
 
             return result;
         }

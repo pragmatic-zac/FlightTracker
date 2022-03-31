@@ -18,7 +18,7 @@ Using REAL for the number columns gets 6 digits of precision, good enough for te
 
 CREATE TABLE FlightStatus (
 	Id						BIGSERIAL PRIMARY KEY NOT NULL,
-	FlightId				??,
+	FlightId				INT NOT NULL,
 	BarometricAltitude		INT,
 	GeometricAltitude		INT,
 	GroundSpeed				REAL,
