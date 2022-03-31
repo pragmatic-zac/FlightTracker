@@ -1,7 +1,7 @@
 ﻿using FlightTracker.Common;
 using System.Text.Json.Serialization;
 
-namespace FlightTrack.Common
+namespace FlightTracker.Common
 {
     public class PiAwareLog
     {
