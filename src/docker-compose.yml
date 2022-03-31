@@ -1,0 +1,63 @@
+version: '3.4'
+
+services:
+  flighttracker.flighthistory.api:
+    image: ${DOCKER_REGISTRY-}flighttrackerflighthistoryapi
+    build:
+      context: .
+      dockerfile: History/FlightTracker.FlightHistory.API/Dockerfile
+    ports:
+      - "8000:80"
+
+  flighttracker.datafetch:
+    image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
+    build:
+      context: .
+      dockerfile: Services/FlightTracker.DataFetch/Dockerfile
+
+  track-rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: track-rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  flighthistorydb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=FlightHistoryDb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  flightpgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@zacjones.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+volumes:
+  portainer_data:
+  postgres_data:
+  pgadmin_data:
