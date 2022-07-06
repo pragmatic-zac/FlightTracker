@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   flighttracker.flighthistory.api:
+    container_name: flighthistory.api
     image: ${DOCKER_REGISTRY-}flighttrackerflighthistoryapi
     build:
       context: .
@@ -50,6 +51,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
 
   flightpgadmin:
+    container_name: flightpgadmin
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@zacjones.com
@@ -59,6 +61,16 @@ services:
       - "5050:80"
     volumes:
       - pgadmin_data:/root/.pgadmin
+
+  tcpserver:
+    container_name: tcpserver
+    build:
+        context: .
+        dockerfile: TCPServer/Dockerfile
+    restart: always
+    ports:
+        - "2100:2100/tcp"
+
 
 volumes:
   portainer_data:

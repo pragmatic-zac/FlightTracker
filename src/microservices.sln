@@ -5,15 +5,17 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BDF47828-A2B3-462C-B5C2-AFA8CD7547B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTracker.FlightHistory.API", "History\FlightTracker.FlightHistory.API\FlightTracker.FlightHistory.API.csproj", "{47897177-D768-43AD-AEA5-805E0345F9A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightTracker.FlightHistory.API", "History\FlightTracker.FlightHistory.API\FlightTracker.FlightHistory.API.csproj", "{47897177-D768-43AD-AEA5-805E0345F9A7}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7511A48A-7CE3-4858-BCBF-594ACE61026E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTracker.DataFetch", "Services\FlightTracker.DataFetch\FlightTracker.DataFetch.csproj", "{CA85570B-B563-4E04-BFCF-79D020D23DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightTracker.DataFetch", "Services\FlightTracker.DataFetch\FlightTracker.DataFetch.csproj", "{CA85570B-B563-4E04-BFCF-79D020D23DD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8698623F-85D6-4281-A8FE-7EB091CFA5B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTracker.Common", "Common\FlightTracker.Common\FlightTracker.Common.csproj", "{29BC3DB3-49BC-44D1-A9CD-E976B1A38256}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightTracker.Common", "Common\FlightTracker.Common\FlightTracker.Common.csproj", "{29BC3DB3-49BC-44D1-A9CD-E976B1A38256}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TCPServer", "TCPServer", "{60CCD89A-6361-46D2-9A38-C34089AD29BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
