@@ -88,6 +88,6 @@ func main() {
 		// instead of calling createFlight I could just send to the other server here
 		fmt.Fprintf(serverConn, message+"\n")
 
-		println("from server=", string(message))
+		// println("from server=", string(message))
 	}
 }
