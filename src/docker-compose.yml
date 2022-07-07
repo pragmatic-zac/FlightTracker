@@ -11,9 +11,12 @@ services:
       - "8000:80"
     depends_on:
       - flighthistorydb
+      - track-rabbitmq
 
   flighttracker.datafetch:
     image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
+    depends_on:
+        - track-rabbitmq
     build:
       context: .
       dockerfile: Services/FlightTracker.DataFetch/Dockerfile
@@ -68,6 +71,8 @@ services:
         context: .
         dockerfile: TCPServer/Dockerfile
     restart: always
+    depends_on:
+        - track-rabbitmq
     ports:
         - "2100:2100/tcp"
 

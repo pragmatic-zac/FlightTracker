@@ -3,7 +3,7 @@ FROM golang:1.18
 WORKDIR /app
 
 # pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
-COPY TCPServer/go.mod ./
+COPY TCPServer/go.mod TCPServer/go.sum ./
 RUN go mod download && go mod verify
 
 # having some caching issues so don't cache the go file
