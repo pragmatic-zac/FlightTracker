@@ -8,6 +8,7 @@ RUN go mod download && go mod verify
 
 # having some caching issues so don't cache the go file
 ARG CACHEBUST=1
+RUN echo "${CACHEBUST}"
 
 # this pathing is necessary because I used Visual Studio to manage docker-compose, don't do that again
 COPY TCPServer/*.go ./

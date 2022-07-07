@@ -98,6 +98,10 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
+	// hardcode a delay to let RabbitMQ get running
+	println("Starting FlightTrack.Conduit...")
+	time.Sleep(15 * time.Second)
+
 	// RabbitMQ Setup
 	conn, err := amqp.Dial("amqp://guest:guest@track-rabbitmq:5672")
 	failOnError(err, "Failed to connect to RabbitMQ")
