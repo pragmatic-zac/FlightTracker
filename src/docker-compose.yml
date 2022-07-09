@@ -13,13 +13,13 @@ services:
       - flighthistorydb
       - track-rabbitmq
 
-  flighttracker.datafetch:
-    image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
-    depends_on:
-        - track-rabbitmq
-    build:
-      context: .
-      dockerfile: Services/FlightTracker.DataFetch/Dockerfile
+#  flighttracker.datafetch:
+#   image: ${DOCKER_REGISTRY-}flighttrackerdatafetch
+#    depends_on:
+#        - track-rabbitmq
+#    build:
+#      context: .
+#      dockerfile: Services/FlightTracker.DataFetch/Dockerfile
 
   track-rabbitmq:
     image: rabbitmq:3-management-alpine
