@@ -17,7 +17,7 @@ namespace FlightTracker.FlightHistory.API.Workers
             var message = context.Message;
 
             // for now just log this to ensure we're getting it as expected
-            Console.WriteLine(message);
+            Console.WriteLine(message.Flight);
 
             return Task.CompletedTask;
         }

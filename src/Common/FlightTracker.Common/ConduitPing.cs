@@ -7,8 +7,8 @@ namespace FlightTracker.Common
         [JsonPropertyName("hex")]
         public string Hex { get; set; }
 
-        [JsonPropertyName("callsign")]
-        public string Callsign { get; set; }
+        [JsonPropertyName("flight")]
+        public string Flight { get; set; }
 
         [JsonPropertyName("altitude")]
         public int Altitude { get; set; }

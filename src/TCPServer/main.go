@@ -17,7 +17,7 @@ import (
 // the field number is 0 based
 type Flight struct {
 	Hex          string  `json:"hex"`          // 4
-	Callsign     string  `json:"callsign"`     // 10
+	Flight       string  `json:"flight"`       // 5
 	Altitude     int     `json:"altitude"`     // 11
 	GroundSpeed  float64 `json:"groundSpeed"`  // 12
 	Track        int     `json:"track"`        // 13
@@ -52,7 +52,7 @@ func createFlight(data string) Flight {
 	toReturn := Flight{
 		Hex:          chunks[4],
 		Timestamp:    time.Now().Format(time.Stamp),
-		Callsign:     chunks[10],
+		Flight:       chunks[5],
 		Altitude:     altitude,
 		GroundSpeed:  groundSpeed,
 		Track:        track,
