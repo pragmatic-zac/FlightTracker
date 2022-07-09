@@ -2,6 +2,9 @@
 
 namespace FlightTracker.Common
 {
+    /// <summary>
+    /// This is used in the FlightTracker.DataFetch, which has slightly different format than Conduit messages
+    /// </summary>
     public class ADSBPing
     {
         [JsonPropertyName("hex")]

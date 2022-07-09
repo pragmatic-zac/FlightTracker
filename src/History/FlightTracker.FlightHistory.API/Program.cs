@@ -28,8 +28,10 @@
 
 
 using System.Reflection;
+using FlightTracker.Common;
 using FlightTracker.FlightHistory.API.Cache;
 using FlightTracker.FlightHistory.API.Repository;
+using FlightTracker.FlightHistory.API.Workers;
 using MassTransit;
 
 namespace TrackFetcher
@@ -61,12 +63,18 @@ namespace TrackFetcher
                         var entryAssembly = Assembly.GetEntryAssembly();
 
                         x.AddConsumers(entryAssembly);
+                        
 
                         x.UsingRabbitMq((ctx, cfg) =>
                         {
                             cfg.Host("amqp://guest:guest@track-rabbitmq:5672");
 
-                            cfg.ConfigureEndpoints(ctx);
+                            cfg.ReceiveEndpoint("adsb-pings", e =>
+                            {
+                                e.ConfigureConsumer<AdsBIngestWorker>(ctx);
+                            });
+
+                            // cfg.ConfigureEndpoints(ctx);
                         });
                     });
                 });

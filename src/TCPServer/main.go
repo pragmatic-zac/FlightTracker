@@ -29,8 +29,13 @@ type Flight struct {
 	Timestamp    string  `json:"timestamp"`
 }
 
+type Envelope struct {
+	Message     Flight   `json:"message"`
+	MessageType []string `json:"messageType"`
+}
+
 // create stringified flight for sending over RabbitMQ
-func createFlight(data string) string {
+func createFlight(data string) Flight {
 	// println(data)
 
 	chunks := strings.Split(data, ",")
@@ -58,7 +63,28 @@ func createFlight(data string) string {
 		Emergency:    emergency,
 	}
 
-	e, err := json.Marshal(toReturn)
+	// e, err := json.Marshal(toReturn)
+	// if err != nil {
+	// 	println("could not convert to json")
+	// }
+
+	// return string(e)
+
+	if err != nil {
+		println("error creating flight")
+	}
+
+	return toReturn
+}
+
+// this wraps the Flight in an envelope that is expected by MassTransit
+func formMessage(flight Flight) string {
+	envelope := Envelope{
+		Message:     flight,
+		MessageType: []string{"urn:message:FlightTracker.Common:ConduitPing"},
+	}
+
+	e, err := json.Marshal(envelope)
 	if err != nil {
 		println("could not convert to json")
 	}
@@ -81,7 +107,8 @@ func handleConnection(c net.Conn, ch *amqp.Channel, q amqp.Queue) {
 		}
 
 		f := createFlight(temp)
-		publishMessage(ch, q, f)
+		m := formMessage(f)
+		publishMessage(ch, q, m)
 	}
 	c.Close()
 }
@@ -121,7 +148,7 @@ func main() {
 
 	q, err := ch.QueueDeclare(
 		"adsb-pings", // name
-		false,        // durable
+		true,         // durable
 		false,        // delete when unused
 		false,        // exclusive
 		false,        // no-wait
