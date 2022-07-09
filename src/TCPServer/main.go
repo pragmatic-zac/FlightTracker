@@ -31,7 +31,7 @@ type Flight struct {
 
 // create stringified flight for sending over RabbitMQ
 func createFlight(data string) string {
-	println(data)
+	// println(data)
 
 	chunks := strings.Split(data, ",")
 
