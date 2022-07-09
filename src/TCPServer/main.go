@@ -13,8 +13,6 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-var count = 0
-
 // create a struct for storing CSV lines and annotate it with JSON struct field tags
 // the field number is 0 based
 type Flight struct {
@@ -31,7 +29,8 @@ type Flight struct {
 	Timestamp    string  `json:"timestamp"`
 }
 
-func createFlight(data string) Flight {
+// create stringified flight for sending over RabbitMQ
+func createFlight(data string) string {
 	println(data)
 
 	chunks := strings.Split(data, ",")
@@ -41,9 +40,9 @@ func createFlight(data string) Flight {
 	groundSpeed, err := strconv.ParseFloat(chunks[12], 32)
 	lat, err := strconv.ParseFloat(chunks[14], 32)
 	long, err := strconv.ParseFloat(chunks[15], 32)
-	vertical, err := strconv.Atoi(chunks[15])
-	squawk, err := strconv.Atoi(chunks[16])
-	emergency, err := strconv.Atoi(chunks[18])
+	vertical, err := strconv.Atoi(chunks[16])
+	squawk, err := strconv.Atoi(chunks[17])
+	emergency, err := strconv.Atoi(chunks[19])
 
 	toReturn := Flight{
 		Hex:          chunks[4],
@@ -64,12 +63,10 @@ func createFlight(data string) Flight {
 		println("could not convert to json")
 	}
 
-	println(string(e))
-
-	return toReturn
+	return string(e)
 }
 
-func handleConnection(c net.Conn) {
+func handleConnection(c net.Conn, ch *amqp.Channel, q amqp.Queue) {
 	fmt.Print(".")
 	for {
 		netData, err := bufio.NewReader(c).ReadString('\n')
@@ -83,10 +80,8 @@ func handleConnection(c net.Conn) {
 			break
 		}
 
-		createFlight(temp)
-
-		counter := strconv.Itoa(count) + "\n"
-		c.Write([]byte(string(counter)))
+		f := createFlight(temp)
+		publishMessage(ch, q, f)
 	}
 	c.Close()
 }
@@ -97,10 +92,23 @@ func failOnError(err error, msg string) {
 	}
 }
 
+func publishMessage(ch *amqp.Channel, q amqp.Queue, body string) {
+	err := ch.Publish(
+		"",     // exchange
+		q.Name, // routing key
+		false,  // mandatory
+		false,  // immediate
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(body),
+		})
+	failOnError(err, "Failed to publish a message")
+}
+
 func main() {
 	// hardcode a delay to let RabbitMQ get running
 	println("Starting FlightTrack.Conduit...")
-	time.Sleep(15 * time.Second)
+	time.Sleep(10 * time.Second)
 
 	// RabbitMQ Setup
 	conn, err := amqp.Dial("amqp://guest:guest@track-rabbitmq:5672")
@@ -112,27 +120,14 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"hello", // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
+		"adsb-pings", // name
+		false,        // durable
+		false,        // delete when unused
+		false,        // exclusive
+		false,        // no-wait
+		nil,          // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
-
-	body := "Hello World!"
-	err = ch.Publish(
-		"",     // exchange
-		q.Name, // routing key
-		false,  // mandatory
-		false,  // immediate
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(body),
-		})
-	failOnError(err, "Failed to publish a message")
-	log.Printf(" [x] Sent %s\n", body)
 
 	// TCP
 	println("STARTING TCP")
@@ -149,7 +144,6 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		go handleConnection(c)
-		count++
+		go handleConnection(c, ch, q)
 	}
 }
